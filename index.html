@@ -115,11 +115,6 @@
     </div>
 
 <script>
-/* ================= CONFIG ================= */
-const CONFIG = {
-    API_KEY: "AIzaSyDomBuesqSiQRQEHBM5sFyKpyF0IWGxAzo",
-    MODEL: "gemini-3-flash-preview"
-};
 
 /* ================= STATE ================= */
 let user = localStorage.getItem("mathmate_user") || "";
@@ -239,11 +234,11 @@ async function askGemini(prompt, base64Image) {
     chatHistory.push({ role: "user", parts: userParts });
 
     try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: chatHistory })
-        });
+        const response = await fetch("/.netlify/functions/ask", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ contents: chatHistory })
+});
         
         const data = await response.json();
         if (data.error) throw new Error(data.error.message);
